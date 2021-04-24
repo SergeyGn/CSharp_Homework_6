@@ -116,6 +116,7 @@ namespace CSharp_Homework_6
                             }
 
                         }
+                        _isExit = true;
                         break;
                     case ConsoleKey.N:
                         _isExit = true;
