@@ -26,9 +26,6 @@ namespace CSharp_Homework_6
 
         private static void ShowMainMenu(int number)
         {
-            bool _isExit=false;
-            while (_isExit==false)
-            {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"Число в фaйле:{number}");
                 Console.WriteLine($"Для того чтобы посмотреть количество групп нажмите 1" +
@@ -41,19 +38,17 @@ namespace CSharp_Homework_6
                 {
                     case ConsoleKey.D2:
                         FindGroups(number);
-                        _isExit = true;
                         break;
                     case ConsoleKey.D1:
                         GetNumberGroup(number);
-                        _isExit = true;
                         break;
                     case ConsoleKey.Q:
-                        _isExit = true;
                         break;
                     default:
                         Console.WriteLine("Некорректный ввод. Попробуйте ещё раз");
+                        ShowMainMenu(number);
                         break;
-                }
+                
             }
         }
         private static void FindGroups(int number)
