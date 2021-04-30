@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 
+
 namespace CSharp_Homework_6
 {
     class Program
     {
-        static string pathFileFindGroups = "Groups.txt";
-        static string pathFileGetNumberGroup = "Groups1.txt";
-        static string pathFileNumber = @"numberFile.txt";
         static string globalPath = AppDomain.CurrentDomain.BaseDirectory;
+        static string pathFileFindGroups = $"{globalPath}result/" + "Groups.txt";
+        static string pathFileGetNumberGroup = $"{globalPath}result/" + "Groups.txt";
+        static string pathFileNumber = $"{globalPath}"+"numberFile.txt";
+        
         static void Main(string[] args)
         {
             ChekPath(pathFileNumber);
-            string fileNumber = File.ReadAllText(pathFileNumber);
-            CheckNumberText(fileNumber);
+
         }
 
         private static void ShowMainMenu(int number)
@@ -88,18 +89,29 @@ namespace CSharp_Homework_6
                 switch (enter1.Key)
                 {
                     case ConsoleKey.Y:
-                        string compresed = "Result.zip";
-                        using (FileStream ss = new FileStream(fileName, FileMode.OpenOrCreate))
-                        {
-                            using (FileStream ts = File.Create(compresed))
-                            {
-                                using (GZipStream cs = new GZipStream(ts, CompressionMode.Compress))
-                                {
-                                    ss.CopyTo(cs);
-                                }
-                            }
-                        }
-                        Console.WriteLine($"Путь к архиву:{globalPath}{compresed}");
+                       Console.WriteLine("ВВедите имя архива");
+                        string compressed = Console.ReadLine();
+
+                        string startPath = $"{globalPath}/result/";
+                        string zipPath =  $"{globalPath}"+@"archive\"+$"{compressed}.zip";
+                        ZipFile.CreateFromDirectory(startPath, zipPath);
+
+                        //using (FileStream ss = new FileStream(fileName, FileMode.OpenOrCreate))
+                        //{
+                        //    using (FileStream ts = File.Create(compressed))
+                        //    {
+                        //        //using (ZipArchive zip = new ZipArchive(ss, ZipArchiveMode.Update))
+                        //        //{
+                        //        //    ss.CopyTo(zip);
+                        //        //    //}
+                        //        using (GZipStream cs = new GZipStream(ss, CompressionMode.Compress))
+                        //        {
+                        //            ss.CopyTo(cs);
+                        //        }
+                        //        //}
+                        //    }
+                        //}
+                        Console.WriteLine($"Путь к архиву:{zipPath}");
                         break;
                     case ConsoleKey.N:
 
@@ -115,7 +127,7 @@ namespace CSharp_Homework_6
         }
         private static void ChekPath(string path)
         {
-            Console.WriteLine($"Текущий путь к файлу:{globalPath}{pathFileNumber}" +
+            Console.WriteLine($"Текущий путь к файлу:{pathFileNumber}" +
                              "\nХотите сменить путь? y/n");
             ConsoleKeyInfo enterPath = Console.ReadKey(true);
             switch (enterPath.Key)
@@ -170,6 +182,8 @@ namespace CSharp_Homework_6
                     CheckNumberText(Console.ReadLine());
                     break;
                 case ConsoleKey.N:
+                    string fileNumber = File.ReadAllText(pathFileNumber);
+                    CheckNumberText(fileNumber);
                     break;
                 default:
                     Console.WriteLine("Некорректный ввод");
